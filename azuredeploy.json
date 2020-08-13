@@ -200,7 +200,7 @@
         "apiVersion": "2015-05-01",
         "name": "[variables('appInsightsName')]",
         "type": "Microsoft.Insights/components",
-        "location": "[resourceGroup().location]",
+        "location": "[parameters('location')]",
         "tags": {
           "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webAppName'))]": "Resource",
           "displayName": "AppInsightsComponent"
