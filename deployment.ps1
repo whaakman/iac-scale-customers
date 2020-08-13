@@ -10,7 +10,6 @@ $keyvaultName = 'kv-wh-iac'
 $storageAccountName = 'sawhiac'
 $tableName = 'Customers'
 
-
 # Retrieve "Customers" table from table storage and storage the customer data in $customerData
 $table = Get-AzTableTable -resourceGroup $managementRgName -TableName $tableName -storageAccountName $storageAccountName
 $customerData = Get-AzTableRow -Table $table -PartitionKey $customerName
@@ -27,6 +26,7 @@ $customerName = $customerName -replace '\s',''
 # Determine the customer size (small, medium, large) and set the corresponding SKUs
 # Additionally checks if the App Service plan selected isn't overpopulated to
 # prevent performance issues
+# TODO: Automatically created new App Service Plan with an increment of "1" when all plans are full
 $customerSize = $customerData.customerSize
 
 switch ($customerSize)
@@ -56,6 +56,7 @@ foreach ($secret in $secrets)
 
 # Populate the template Parameters. Data comes from Table storage and Key Vault
 # SKU is not a requirement, only when provisioning a new App Service Plan
+# TODO: Validate whether domain is already in use
 $templateParams =@{
     "webAppName" = $customerName
     "appServicePlan" = $appServicePlan
@@ -73,7 +74,7 @@ $PropertiesObject = @{
     isManualIntegration = "true";
 }
 
-# Deploy the ARM TEmplate
+# Deploy the ARM Template
 $deployment = New-AzResourceGroupDeployment -ResourceGroupName $solutionRgName -TemplateFile .\azuredeploy.json -TemplateParameterObject $templateParams
 
 # Store the output in variables that make sense
