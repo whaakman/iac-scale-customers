@@ -75,6 +75,8 @@ $PropertiesObject = @{
 }
 
 # Deploy the ARM Template
+# TODO: Use seperate templates for Web Apps and SQL
+# TODO: Support for deploying development and training environments
 $deployment = New-AzResourceGroupDeployment -ResourceGroupName $solutionRgName -TemplateFile .\azuredeploy.json -TemplateParameterObject $templateParams
 
 # Store the output in variables that make sense
