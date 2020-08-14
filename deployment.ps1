@@ -3,6 +3,7 @@ param (
 )
 
 # Define Resource groups and other basic information
+# TODO: Support for multiple Key Vaults
 $managementRgName = 'rg-iac'
 $solutionRgName = "rg-Apps"
 $gitRepo = "https://github.com/whaakman/Demo-WebApp.git" 
